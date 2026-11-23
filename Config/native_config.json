@@ -1,0 +1,177 @@
+{
+  "device": null,
+  "adb_binary": "adb",
+
+  "capture": {
+    "mode": "attach",
+    "duration_sec": 60,
+    "launch_app": true,
+    "force_stop_first": true,
+    "wait_attempts": 4000,
+    "poll_interval_sec": 0.0,
+    "remote_dir": "/data/local/tmp/pma_native",
+    "local_strace_binary": null,
+    "setenforce_permissive_for_wrap": true,
+    "kill_app_after_capture": false
+  },
+
+  "strace": {
+    "follow_forks": true,
+    "timestamps": true,
+    "print_duration": true,
+    "decode_fds": true,
+    "decode_sockets": true,
+    "string_limit": 256,
+    "tolerate_unknown_syscalls": true,
+    "extra_flags": []
+  },
+
+  "output": {
+    "dir": ".",
+    "raw_log": "native_raw_strace.log",
+    "events": "native_events.json"
+  },
+
+  "categories": {
+    "filesystem": {
+      "description": "File access: opening, reading, writing, deleting and stat-ing files on the device.",
+      "syscalls": [
+        "openat",
+        "openat2",
+        "open",
+        "read",
+        "write",
+        "pread64",
+        "pwrite64",
+        "unlinkat",
+        "unlink",
+        "renameat",
+        "renameat2",
+        "mkdirat",
+        "faccessat",
+        "faccessat2",
+        "newfstatat",
+        "statx",
+        "readlinkat"
+      ]
+    },
+    "network": {
+      "description": "Network communication: socket creation, connection establishment and data transfer.",
+      "syscalls": [
+        "socket",
+        "connect",
+        "bind",
+        "sendto",
+        "recvfrom",
+        "sendmsg",
+        "recvmsg",
+        "accept4",
+        "getsockname",
+        "getpeername"
+      ]
+    },
+    "process": {
+      "description": "Process execution and process control performed by the application.",
+      "syscalls": [
+        "execve",
+        "execveat",
+        "clone",
+        "clone3",
+        "fork",
+        "vfork",
+        "kill",
+        "tgkill",
+        "ptrace",
+        "wait4"
+      ]
+    },
+    "library_loading": {
+      "description": "Dynamic library loading: executable mappings backed by .so files (the syscall half of dlopen/System.loadLibrary).",
+      "syscalls": ["mmap", "mmap2"]
+    }
+  },
+
+  "path_overrides": [
+    {
+      "comment": "A .so opened through the generic file path is really library loading, not plain file I/O.",
+      "pattern": "\\.so(\\.[0-9]+)*$",
+      "applies_to": [
+        "openat",
+        "openat2",
+        "open",
+        "newfstatat",
+        "statx",
+        "faccessat",
+        "faccessat2"
+      ],
+      "category": "library_loading"
+    },
+    {
+      "comment": "APK/DEX/OAT/VDEX artefacts are code containers, treat them as library loading too.",
+      "pattern": "\\.(apk|dex|odex|oat|vdex|art)$",
+      "applies_to": ["openat", "openat2", "open", "mmap", "mmap2"],
+      "category": "library_loading"
+    }
+  ],
+
+  "filters": {
+    "_comment": "Host-side noise reduction. ignore_path_patterns/keep_path_patterns are Python regexes matched against the decoded path (or socket description) of an event. keep_path_patterns wins over ignore_path_patterns.",
+    "ignore_syscalls": [],
+    "ignore_failed_calls": false,
+    "min_io_bytes": 0,
+    "drop_anonymous_mmap": true,
+    "require_exec_mapping": true,
+    "ignore_pathless_events": [
+      "read",
+      "write",
+      "pread64",
+      "pwrite64",
+      "mmap",
+      "mmap2"
+    ],
+    "ignore_path_patterns": [
+      "^/dev/(binder|hwbinder|vndbinder|ashmem|ion|kgsl-3d0|mali[0-9]*|null|zero|random|urandom|pmsg0)$",
+      "^/dev/socket/(logdw|logdr)",
+      "^/dev/__properties__/properties_serial$",
+      "^/sys/kernel/",
+      "^/system/fonts/",
+      "^/apex/[^/]+/etc/fonts",
+      "^/proc/self/(task|maps|smaps)",
+      "^pipe:\\[",
+      "^anon_inode:"
+    ],
+    "keep_path_patterns": [
+      "qemu",
+      "goldfish",
+      "/proc/cpuinfo",
+      "/proc/tty/drivers",
+      "/proc/self/maps",
+      "/system/build\\.prop",
+      "/data/data/",
+      "/data/user/"
+    ]
+  },
+
+  "highlights": [
+    {
+      "label": "emulator-artifact-access",
+      "pattern": "qemu|goldfish|ranchu|/proc/tty/drivers|/proc/cpuinfo|/system/build\\.prop|/sys/devices/virtual/switch",
+      "note": "Path commonly probed by emulator-detection logic (cross-reference with Task 2)."
+    },
+    {
+      "label": "shell-execution",
+      "pattern": "^/(system|vendor|apex)/.*/(sh|toybox|toolbox|su|getprop|ps|mount|id)$",
+      "note": "Application executed a shell/system binary; frequently used for root or emulator checks."
+    },
+    {
+      "label": "app-private-storage",
+      "pattern": "^/data/(data|user/[0-9]+)/",
+      "note": "Access to the application's own private data directory."
+    },
+    {
+      "label": "native-library-load",
+      "pattern": "\\.so(\\.[0-9]+)*$",
+      "note": "Native library mapped into the process."
+    }
+  ]
+}

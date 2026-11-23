@@ -1,0 +1,16 @@
+{
+  "scenarios": {
+    "normal": {
+      "battery": { "level": 100, "charging": true },
+      "location": { "lat": 17.385, "lon": 78.4867 },
+      "network": "full"
+    },
+    "low_battery": {
+      "battery": { "level": 5, "charging": false }
+    },
+    "different_location": {
+      "location": { "lat": 35.6895, "lon": 139.6917 },
+      "network": "edge"
+    }
+  }
+}

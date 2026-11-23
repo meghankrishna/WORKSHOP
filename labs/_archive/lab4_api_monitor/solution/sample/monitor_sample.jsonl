@@ -1,0 +1,7 @@
+{"timestamp": 1763800000000, "category": "filesystem", "class": "java.io.File", "method": "exists", "signature": "", "args": [], "returnValue": "true", "exception": null}
+{"timestamp": 1763800000100, "category": "filesystem", "class": "java.io.File", "method": "exists", "signature": "", "args": [], "returnValue": "false", "exception": null}
+{"timestamp": 1763800000200, "category": "filesystem", "class": "java.io.FileOutputStream", "method": "$init", "signature": "java.lang.String", "args": ["\"/data/data/com.example/files/note.txt\""], "returnValue": "void", "exception": null}
+{"timestamp": 1763800000300, "category": "network", "class": "java.net.URL", "method": "$init", "signature": "java.lang.String", "args": ["\"http://example.com/api\""], "returnValue": "void", "exception": null}
+{"timestamp": 1763800000400, "category": "shared_preferences", "class": "android.app.SharedPreferencesImpl", "method": "getString", "signature": "java.lang.String, java.lang.String", "args": ["\"token\"", "null"], "returnValue": "\"abc123\"", "exception": null}
+{"timestamp": 1763800000500, "category": "device_info", "class": "android.os.SystemProperties", "method": "get", "signature": "java.lang.String", "args": ["\"ro.build.tags\""], "returnValue": "\"release-keys\"", "exception": null}
+{"timestamp": 1763800000600, "category": "process", "class": "java.lang.Runtime", "method": "exec", "signature": "java.lang.String", "args": ["\"getprop\""], "returnValue": null, "exception": "java.io.IOException: Cannot run program"}

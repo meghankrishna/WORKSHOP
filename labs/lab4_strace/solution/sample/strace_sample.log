@@ -1,0 +1,80 @@
+10360 17:16:07.415729 +++ exited with 0 +++
+10361 17:16:07.416201 +++ exited with 0 +++
+10362 17:16:07.416467 +++ exited with 0 +++
+10359 17:16:07.416644 +++ exited with 0 +++
+10350 17:16:10.486596 socket(AF_UNIX, SOCK_DGRAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0) = 52
+10350 17:16:10.486915 connect(52, {sa_family=AF_UNIX, sun_path="/dev/socket/statsdw"}, 110) = 0
+10350 17:16:10.523368 faccessat(AT_FDCWD, "/sdcard/Download", F_OK) = 0
+10350 17:16:10.524568 faccessat(AT_FDCWD, "/system/etc/hosts", F_OK) = 0
+10350 17:16:10.525595 faccessat(AT_FDCWD, "/data/local/tmp/does-not-exist", F_OK) = -1 ENOENT (No such file or directory)
+10350 17:16:10.526818 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp", F_OK) = 0
+10350 17:16:10.527097 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/files", F_OK) = 0
+10350 17:16:10.527434 openat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/files/note.txt", O_WRONLY|O_CREAT|O_TRUNC, 0600) = 55
+10350 17:16:10.528779 openat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/files/note.txt", O_RDONLY) = 55
+10449 17:16:10.540763 socket(AF_UNIX, SOCK_STREAM|SOCK_CLOEXEC, 0) = 55
+10449 17:16:10.541248 connect(55, {sa_family=AF_UNIX, sun_path="/dev/socket/dnsproxyd"}, 110) = 0
+10449 17:16:10.554391 socket(AF_INET6, SOCK_STREAM, IPPROTO_IP) = 55
+10449 17:16:10.557285 socket(AF_UNIX, SOCK_STREAM|SOCK_CLOEXEC, 0) = 62
+10449 17:16:10.557583 connect(62, {sa_family=AF_UNIX, sun_path="/dev/socket/fwmarkd"}, 110) = 0
+10449 17:16:10.559119 connect(55, {sa_family=AF_INET6, sin6_port=htons(443), inet_pton(AF_INET6, "::ffff:172.66.147.243", &sin6_addr), sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28) = -1 EINPROGRESS (Operation now in progress)
+10449 17:16:10.559610 socket(AF_UNIX, SOCK_STREAM|SOCK_CLOEXEC, 0) = 62
+10449 17:16:10.559840 connect(62, {sa_family=AF_UNIX, sun_path="/dev/socket/fwmarkd"}, 110) = 0
+10350 17:16:10.586794 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp", F_OK) = 0
+10350 17:16:10.587132 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/shared_prefs", F_OK) = 0
+10452 17:16:10.592261 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/shared_prefs/demo.xml.bak", F_OK) = -1 ENOENT (No such file or directory)
+10452 17:16:10.592420 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/shared_prefs/demo.xml", F_OK) = 0
+10452 17:16:10.592575 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/shared_prefs/demo.xml", R_OK) = 0
+10452 17:16:10.592981 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/shared_prefs/demo.xml", R_OK) = 0
+10452 17:16:10.593179 openat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/shared_prefs/demo.xml", O_RDONLY) = 65
+10452 17:16:10.600257 +++ exited with 0 +++
+10350 17:16:10.606881 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp", F_OK) = 0
+10350 17:16:10.607139 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/databases", F_OK) = 0
+10350 17:16:10.612563 openat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/databases/demo.db", O_RDWR|O_CREAT|O_LARGEFILE|O_CLOEXEC, 0600) = 69
+10350 17:16:10.632231 openat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/databases/demo.db-journal", O_RDWR|O_CREAT|O_LARGEFILE|O_CLOEXEC, 0660) = 70
+10350 17:16:10.632625 openat(AT_FDCWD, "/dev/urandom", O_RDONLY|O_CLOEXEC) = 71
+10350 17:16:10.635675 openat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/databases", O_RDONLY|O_CLOEXEC) = 71
+10454 17:16:10.655321 openat(AT_FDCWD, "/proc/self/fd", O_RDONLY|O_CLOEXEC|O_DIRECTORY) = 4
+10455 17:16:10.666018 openat(AT_FDCWD, "/proc/10455/timerslack_ns", O_WRONLY|O_CREAT|O_TRUNC|O_NOFOLLOW|O_CLOEXEC, 0666) = 77
+10454 17:16:10.677285 execve("/sbin/getprop", ["getprop", "ro.product.model"], 0x7fd46c27b0 /* 16 vars */) = -1 ENOENT (No such file or directory)
+10454 17:16:10.677428 execve("/system/sbin/getprop", ["getprop", "ro.product.model"], 0x7fd46c27b0 /* 16 vars */) = -1 ENOENT (No such file or directory)
+10454 17:16:10.677550 execve("/product/bin/getprop", ["getprop", "ro.product.model"], 0x7fd46c27b0 /* 16 vars */) = -1 ENOENT (No such file or directory)
+10454 17:16:10.677716 execve("/apex/com.android.runtime/bin/getprop", ["getprop", "ro.product.model"], 0x7fd46c27b0 /* 16 vars */) = -1 ENOENT (No such file or directory)
+10454 17:16:10.677849 execve("/system/bin/getprop", ["getprop", "ro.product.model"], 0x7fd46c27b0 /* 16 vars */) = 0
+10454 17:16:10.680694 faccessat(AT_FDCWD, "/dev/urandom", R_OK) = 0
+10454 17:16:10.690006 openat(AT_FDCWD, "/dev/null", O_RDWR) = 3
+10454 17:16:10.690787 faccessat(AT_FDCWD, "/dev/__properties__/property_info", R_OK) = 0
+10454 17:16:10.690928 openat(AT_FDCWD, "/dev/__properties__/property_info", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10454 17:16:10.691709 openat(AT_FDCWD, "/dev/__properties__/properties_serial", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10454 17:16:10.694062 openat(AT_FDCWD, "/dev/__properties__/u:object_r:debug_prop:s0", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10454 17:16:10.698094 openat(AT_FDCWD, "/dev/__properties__/u:object_r:exported_default_prop:s0", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10454 17:16:10.698747 openat(AT_FDCWD, "/system/etc/ld.config.29.txt", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10453 17:16:10.705030 faccessat(AT_FDCWD, "/data/user/0/com.bootcamp.demoapp/shared_prefs/demo.xml", F_OK) = 0
+10454 17:16:10.705969 faccessat(AT_FDCWD, "/system/bin", R_OK) = -1 EACCES (Permission denied)
+10454 17:16:10.724863 openat(AT_FDCWD, "/system/lib64/libbase.so", O_RDONLY|O_CLOEXEC) = 3
+10454 17:16:10.726937 openat(AT_FDCWD, "/system/lib64/libc++.so", O_RDONLY|O_CLOEXEC) = 4
+10454 17:16:10.728904 openat(AT_FDCWD, "/system/lib64/libc.so", O_RDONLY|O_CLOEXEC) = 5
+10454 17:16:10.734577 openat(AT_FDCWD, "/system/lib64/libm.so", O_RDONLY|O_CLOEXEC) = 6
+10454 17:16:10.737225 openat(AT_FDCWD, "/system/lib64/libdl.so", O_RDONLY|O_CLOEXEC) = 7
+10449 17:16:10.737508 openat(AT_FDCWD, "/data/misc/keychain/pubkey_blacklist.txt", O_RDONLY) = 69
+10449 17:16:10.739734 openat(AT_FDCWD, "/data/misc/keychain/serial_blacklist.txt", O_RDONLY) = 69
+10454 17:16:10.740430 openat(AT_FDCWD, "/system/lib64/liblog.so", O_RDONLY|O_CLOEXEC) = 8
+10449 17:16:10.749376 faccessat(AT_FDCWD, "/system/etc/security/cacerts/38557bfa.0", F_OK) = -1 ENOENT (No such file or directory)
+10449 17:16:10.751096 faccessat(AT_FDCWD, "/system/etc/security/cacerts/dd2fe2e5.0", F_OK) = -1 ENOENT (No such file or directory)
+10449 17:16:10.752327 faccessat(AT_FDCWD, "/system/etc/security/cacerts/a69163ff.0", F_OK) = -1 ENOENT (No such file or directory)
+10449 17:16:10.756151 faccessat(AT_FDCWD, "/system/etc/security/cacerts/cbb3f32b.0", F_OK) = -1 ENOENT (No such file or directory)
+10449 17:16:10.759223 faccessat(AT_FDCWD, "/system/etc/security/cacerts/75680d2e.0", F_OK) = 0
+10449 17:16:10.759449 faccessat(AT_FDCWD, "/data/misc/user/0/cacerts-removed/75680d2e.0", F_OK) = -1 ENOENT (No such file or directory)
+10449 17:16:10.759667 openat(AT_FDCWD, "/system/etc/security/cacerts/75680d2e.0", O_RDONLY) = 69
+10449 17:16:10.766046 faccessat(AT_FDCWD, "/system/etc/security/cacerts/75680d2e.1", F_OK) = -1 ENOENT (No such file or directory)
+10454 17:16:10.767741 faccessat(AT_FDCWD, "/dev/urandom", R_OK) = 0
+10454 17:16:10.769037 openat(AT_FDCWD, "/sys/kernel/mm/transparent_hugepage/enabled", O_RDONLY) = -1 ENOENT (No such file or directory)
+10454 17:16:10.771957 faccessat(AT_FDCWD, "/dev/__properties__/property_info", R_OK) = 0
+10454 17:16:10.772107 openat(AT_FDCWD, "/dev/__properties__/property_info", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10454 17:16:10.773472 openat(AT_FDCWD, "/dev/__properties__/properties_serial", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10454 17:16:10.774400 openat(AT_FDCWD, "/dev/__properties__/u:object_r:debug_prop:s0", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10454 17:16:10.775404 openat(AT_FDCWD, "/dev/__properties__/u:object_r:exported2_default_prop:s0", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10454 17:16:10.776337 openat(AT_FDCWD, "/dev/__properties__/u:object_r:heapprofd_prop:s0", O_RDONLY|O_NOFOLLOW|O_CLOEXEC) = 3
+10454 17:16:10.778188 openat(AT_FDCWD, "/system/lib64/libnetd_client.so", O_RDONLY|O_CLOEXEC) = 3
+10454 17:16:10.803139 +++ exited with 0 +++
+10358 17:16:10.803218 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=10454, si_uid=10145, si_status=0, si_utime=0, si_stime=2} ---
+10449 17:16:10.855823 +++ exited with 0 +++

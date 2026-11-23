@@ -1,0 +1,6 @@
+{
+  "hooks": [
+    { "class": "java.io.File", "method": "exists" },
+    { "class": "android.util.Log", "method": "d" }
+  ]
+}

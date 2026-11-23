@@ -1,0 +1,45 @@
+{
+  "strace": {
+    "follow_children_and_threads": true,
+    "timestamps": true,
+    "string_limit": 128
+  },
+
+  "capture": {
+    "duration_seconds": 30,
+    "remote_dir": "/data/local/tmp"
+  },
+
+  "categories": {
+    "filesystem": ["openat", "unlinkat", "mkdirat", "renameat", "faccessat"],
+    "network": ["socket", "connect", "bind"],
+    "process": ["execve", "kill"]
+  },
+
+  "highlights": [
+    {
+      "label": "app-private-storage",
+      "syscalls": ["openat"],
+      "pattern": "^/data/user/[0-9]+/",
+      "note": "The app reads or writes its own private files (settings, databases, notes)."
+    },
+    {
+      "label": "dns-lookup",
+      "syscalls": ["connect"],
+      "pattern": "dnsproxyd",
+      "note": "The app is asking the system to turn a name into an address."
+    },
+    {
+      "label": "internet-connection",
+      "syscalls": ["connect"],
+      "pattern": "^[0-9a-fA-F:.]+:[0-9]+$",
+      "note": "The app connects to an address and port on the network."
+    },
+    {
+      "label": "program-start",
+      "syscalls": ["execve"],
+      "pattern": ".",
+      "note": "The app starts another program."
+    }
+  ]
+}

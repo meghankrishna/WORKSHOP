@@ -1,0 +1,16 @@
+{
+  "options": { "maxArgLen": 256, "stackTrace": false },
+  "hooks": [
+    { "category": "filesystem", "class": "java.io.File", "method": "exists" },
+    { "category": "filesystem", "class": "java.io.FileOutputStream", "method": "$init" },
+    { "category": "network", "class": "java.net.URL", "method": "$init" },
+    { "category": "network", "class": "java.net.URL", "method": "openConnection" },
+    { "category": "crypto", "class": "javax.crypto.Cipher", "method": "doFinal" },
+    { "category": "telephony", "class": "android.telephony.TelephonyManager", "method": "getDeviceId" },
+    { "category": "telephony", "class": "android.telephony.TelephonyManager", "method": "getSimOperatorName" },
+    { "category": "shared_preferences", "class": "android.app.SharedPreferencesImpl", "method": "getString" },
+    { "category": "shared_preferences", "class": "android.app.SharedPreferencesImpl", "method": "getBoolean" },
+    { "category": "device_info", "class": "android.os.SystemProperties", "method": "get" },
+    { "category": "process", "class": "java.lang.Runtime", "method": "exec" }
+  ]
+}

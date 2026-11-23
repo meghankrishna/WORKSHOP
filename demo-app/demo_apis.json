@@ -1,0 +1,39 @@
+{
+  "options": { "maxArgLen": 200, "stackTrace": false },
+  "hooks": [
+    { "category": "filesystem", "class": "java.io.File", "method": "exists" },
+    { "category": "filesystem", "class": "java.io.FileOutputStream", "method": "$init" },
+    { "category": "filesystem", "class": "java.io.FileInputStream", "method": "$init" },
+
+    { "category": "network", "class": "java.net.URL", "method": "$init" },
+    { "category": "network", "class": "java.net.URL", "method": "openConnection" },
+    { "category": "network", "class": "com.android.okhttp.internal.huc.HttpURLConnectionImpl", "method": "getResponseCode" },
+    { "category": "network", "class": "com.android.okhttp.internal.huc.HttpsURLConnectionImpl", "method": "getResponseCode" },
+
+    { "category": "location", "class": "android.location.LocationManager", "method": "getLastKnownLocation" },
+    { "category": "location", "class": "android.location.LocationManager", "method": "requestLocationUpdates" },
+
+    { "category": "telephony", "class": "android.telephony.TelephonyManager", "method": "getNetworkOperatorName" },
+    { "category": "telephony", "class": "android.telephony.TelephonyManager", "method": "getSimOperatorName" },
+    { "category": "telephony", "class": "android.telephony.TelephonyManager", "method": "getLine1Number" },
+    { "category": "telephony", "class": "android.telephony.TelephonyManager", "method": "getDeviceId" },
+
+    { "category": "shared_preferences", "class": "android.app.SharedPreferencesImpl", "method": "getString" },
+    { "category": "shared_preferences", "class": "android.app.SharedPreferencesImpl", "method": "getBoolean" },
+    { "category": "shared_preferences", "class": "android.app.SharedPreferencesImpl$EditorImpl", "method": "putString" },
+
+    { "category": "database", "class": "android.database.sqlite.SQLiteDatabase", "method": "execSQL" },
+    { "category": "database", "class": "android.database.sqlite.SQLiteDatabase", "method": "insert" },
+    { "category": "database", "class": "android.database.sqlite.SQLiteDatabase", "method": "rawQuery" },
+
+    { "category": "crypto", "class": "javax.crypto.Cipher", "method": "getInstance" },
+    { "category": "crypto", "class": "javax.crypto.Cipher", "method": "doFinal" },
+
+    { "category": "process", "class": "java.lang.Runtime", "method": "exec" },
+
+    { "category": "device_info", "class": "android.provider.Settings$Secure", "method": "getString" },
+    { "category": "device_info", "class": "android.os.BatteryManager", "method": "getIntProperty" },
+
+    { "category": "package_info", "class": "android.app.ApplicationPackageManager", "method": "getInstalledPackages" }
+  ]
+}

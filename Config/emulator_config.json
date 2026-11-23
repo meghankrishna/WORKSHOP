@@ -1,0 +1,22 @@
+{
+  "scenarios": {
+    "normal_state": {
+      "battery_level": 100,
+      "is_charging": true,
+      "location": [78.4867, 17.385],
+      "network_speed": "full"
+    },
+    "low_battery": {
+      "battery_level": 5,
+      "is_charging": false,
+      "location": null,
+      "network_speed": null
+    },
+    "tokyo_gps_edge_network": {
+      "battery_level": null,
+      "is_charging": null,
+      "location": [139.6917, 35.6895],
+      "network_speed": "edge"
+    }
+  }
+}
