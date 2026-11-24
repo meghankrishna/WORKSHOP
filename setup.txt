@@ -1,0 +1,172 @@
+===========================================================================
+ Manual walkthrough: set your PATH and start the emulator + Frida by hand
+===========================================================================
+
+This file is for LEARNING, not for running as a script. It shows, command
+by command, what "./setup.sh start" and "./setup.sh frida-start" do
+automatically, so you understand each piece and can fix things yourself
+when something goes wrong. Type these commands yourself, one at a time,
+from inside the BOOTCAMP/ folder.
+
+Values used in this bootcamp (match setup.sh -- do not change them):
+    ANDROID_SDK_ROOT = $HOME/Android/Sdk
+    AVD name         = pixel-29        (Android 9 / API 29, google_apis, x86_64)
+    Frida port       = 27042           (reached at 127.0.0.1:27042 after a port-forward)
+
+---------------------------------------------------------------------------
+PART 0 -- one-time install 
+---------------------------------------------------------------------------
+Read this part to understand what already happened. Do NOT repeat it --
+re-running it would redownload gigabytes you already have. It is here so
+you know where pixel-29, adb, and the emulator binary actually come from.
+
+  1. Installed a JDK, then the Android SDK command-line tools:
+         export JAVA_HOME="$(dirname "$(dirname "$(readlink -f "$(command -v java)")")")"
+         mkdir -p "$HOME/Android/Sdk/cmdline-tools"
+         curl -fLO "https://dl.google.com/android/repository/commandlinetools-linux-15859902_latest.zip"
+         unzip -q commandlinetools-linux-15859902_latest.zip -d /tmp/cmdline-tools
+         mv /tmp/cmdline-tools/cmdline-tools "$HOME/Android/Sdk/cmdline-tools/latest"
+
+  2. Put the SDK's own tools on PATH just long enough to install packages:
+         export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+         export ANDROID_HOME="$ANDROID_SDK_ROOT"
+         export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
+
+  3. Accepted licenses and installed exactly the packages this bootcamp needs:
+         yes | sdkmanager --sdk_root="$ANDROID_SDK_ROOT" --licenses
+         sdkmanager --sdk_root="$ANDROID_SDK_ROOT" \
+             "platform-tools" "emulator" "build-tools;29.0.0" \
+             "platforms;android-29" "system-images;android-29;google_apis;x86_64"
+
+  4. Created the AVD used everywhere in this bootcamp:
+         avdmanager create avd --name pixel-29 \
+             --package "system-images;android-29;google_apis;x86_64" \
+             --device "pixel"
+
+  5. Created venv/ (NOT the system Python -- this machine has no sudo access)
+     and installed Frida into it:
+         python3 -m venv venv
+         ./venv/bin/python3 -m pip install frida frida-tools androguard
+
+  6. Rooted the AVD with Magisk, using the "rootAVD" tool. A stock
+     "google_apis" system image has no working su -- adb root alone only
+     elevates the adb DAEMON, it does not give you an su binary, and every
+     demo/lab command below that reads "su -c '...'" needs a real one. So:
+         git clone https://github.com/heet-1011/rootAVD-forked.git ~/rootAVD-forked
+         chmod +x ~/rootAVD-forked/rootAVD.sh
+
+         cd "$ANDROID_SDK_ROOT"
+         ~/rootAVD-forked/rootAVD.sh \
+             "system-images/android-29/google_apis/x86_64/ramdisk.img"
+         # this patches the AVD's boot image to include Magisk
+
+         emulator -avd pixel-29 -no-snapshot -writable-system &
+         # Magisk's own app opens automatically on this first boot;
+         # approve its "Grant root access" / OK prompts on the emulator
+         # screen when asked (one-time, interactive -- cannot be scripted
+         # around, which is why this is a Part 0 step and not a Part 1 one)
+
+         adb shell su -c id
+         # once this prints "uid=0(root) ..." root is installed for good;
+         # it survives emulator restarts, so you never repeat this step
+
+That is everything "./setup.sh" automated for you. Everything below is
+what you now do by hand, every time you sit down to work.
+
+---------------------------------------------------------------------------
+PART 1 -- every session, by hand (replaces "./setup.sh start/frida-start")
+---------------------------------------------------------------------------
+
+Step 1: use the project's Python (it has Frida installed, not your system one)
+    source venv/bin/activate
+
+Step 2: put adb and the emulator on PATH, for THIS terminal only
+    export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+    export PATH="$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$PATH"
+
+    Why both folders?
+      - the "adb" program lives in      $ANDROID_SDK_ROOT/platform-tools/
+      - the "emulator" program lives in $ANDROID_SDK_ROOT/emulator/
+    Putting both on PATH means you can type "adb ..." and "emulator ..."
+    from any directory, instead of having to "cd" into each tool's own
+    folder first (that is the mistake an earlier version of this file made).
+
+    Check it worked:
+    which adb         # should print .../Android/Sdk/platform-tools/adb
+    which emulator     # should print .../Android/Sdk/emulator/emulator
+
+Step 3: start the adb server (once; it keeps running in the background)
+    adb start-server
+
+Step 4: start the emulator -- run this in a SECOND terminal, it blocks
+        that terminal for as long as the emulator is open
+    emulator -avd pixel-29 -no-snapshot -writable-system &
+
+Step 5: back in the FIRST terminal, wait for it to finish booting
+    adb wait-for-device
+    adb devices
+    # must show:  emulator-5554   device      <- not "offline", not blank
+
+    adb shell getprop sys.boot_completed
+    # keep re-running this until it prints 1 (first boot can take a minute)
+
+Step 6: verify root access (root itself was installed once, in Part 0 --
+        you are only CHECKING it here, not creating it)
+    adb shell su -c id
+    # must print:  uid=0(root) gid=0(root) ...
+    # If it does not, Magisk root is missing from this AVD -- tell your
+    # instructor; do not try to redo the Part 0 rootAVD steps mid-class,
+    # it needs an interactive Magisk approval tap.
+
+    (Separately, "adb root" also works on this build -- it elevates the adb
+    daemon itself, which is what lets "adb remount" mount /system read-write.
+    That is a different thing from the su root above, and the demos/labs in
+    this bootcamp all use "su -c '...'", so Step 6 above is the one that
+    actually matters here.)
+
+Step 7: push and start frida-server, matching the Frida version in venv/
+    FRIDA_VERSION=$(./venv/bin/python3 -c 'import frida; print(frida.__version__)')
+    ARCH=$(adb shell getprop ro.product.cpu.abi | tr -d '\r')
+    echo "Frida $FRIDA_VERSION, device ABI $ARCH"     # ARCH is x86_64 on these machines
+
+    cd ~
+    curl -fLO "https://github.com/frida/frida/releases/download/${FRIDA_VERSION}/frida-server-${FRIDA_VERSION}-android-${ARCH}.xz"
+    xz -d -f "frida-server-${FRIDA_VERSION}-android-${ARCH}.xz"
+
+    adb push "frida-server-${FRIDA_VERSION}-android-${ARCH}" /data/local/tmp/frida-server
+    adb shell chmod 755 /data/local/tmp/frida-server
+    adb shell "su -c '/data/local/tmp/frida-server -l 127.0.0.1:27042 >/dev/null 2>&1 &'"
+
+    # frida-server only listens on the PHONE's own loopback address, so
+    # forward that port to your laptop before you can reach it from here:
+    adb forward tcp:27042 tcp:27042
+
+Step 8: verify everything is reachable
+    frida-ps -Ua                 # lists apps on the phone -- proves PATH + venv are right
+    frida-ps -H 127.0.0.1:27042  # lists apps via the port-forward -- proves frida-server is right
+
+Step 9: install an app (the demo app, or any APK you are given)
+    adb install -r -d /path/to/app.apk
+    # -r  replace it if it's already installed, keeping its data
+    # -d  allow a downgrade (useful when re-installing an older build)
+
+    Find its package name afterwards (you need this for every later command,
+    e.g. to pass to frida, strace, or pm):
+    adb shell pm list packages | grep -i <part-of-the-app-name>
+    # prints:  package:com.bootcamp.demoapp
+
+    Example, for this bootcamp's own demo app:
+    adb install -r -d demo-app/bootcamp-demo.apk
+    adb shell pm list packages | grep -i bootcamp      # -> package:com.bootcamp.demoapp
+
+If `frida-ps -Ua`/`frida-ps -H ...` both print a list of running apps, and
+your app is installed, you are ready for the demos and labs: go to
+README.md, Section 2.
+
+---------------------------------------------------------------------------
+If something fails
+---------------------------------------------------------------------------
+See "Section 6: troubleshooting" in README.md. When you are out of time,
+the one-line shortcut that does everything in Part 1 for you is:
+    ./setup.sh start
+    ./setup.sh frida-start
