@@ -170,3 +170,7 @@ See "Section 6: troubleshooting" in README.md. When you are out of time,
 the one-line shortcut that does everything in Part 1 for you is:
     ./setup.sh start
     ./setup.sh frida-start
+
+
+
+#https://docs.google.com/document/d/1jiRyZp1nbFm6XQhwtuTfNrthSlCMX9jlqAnQYuA1d7s/edit?tab=t.0
